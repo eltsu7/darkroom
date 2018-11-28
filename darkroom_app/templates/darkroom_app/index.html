@@ -1,0 +1,61 @@
+<html>
+    <head>
+        <meta http-equiv="refresh" content="5">
+        <meta name="theme-color" content="#9C8367">
+        <title>Pimiö</title>
+        <style media="screen" type="text/css">
+            body {
+                background: #9C8367;
+            }
+            #center {
+                right: 50%;
+                bottom: 50%;
+                transform: translate(50%,50%);
+                position: absolute;
+            }
+
+            @keyframes beat {
+                0% {
+                    transform:scale(1) ;
+                }
+                20% {
+                    transform:scale(1.1) rotate(2deg);
+                }
+                100% { 
+                    transform:scale(1);
+
+                }
+            }
+
+            @keyframes spin {
+                100% { 
+                    transform: rotate(360deg);
+                }
+            }
+        
+            h1 {
+                color: white;
+                font-size: 15vw;
+                text-align: center;
+            }
+
+            .empty {
+                animation: spin 1.2s infinite;
+            }
+
+            .not-empty {
+                animation: beat 0.6s infinite;
+            }
+        
+        </style>
+    </head>
+    <body>
+        <div id='center'>
+            {% if darkroom_open %}
+                <h1 class='not-empty'>Joku on pimiöllä :O</h1>
+            {% else %}
+                <h1 class='empty'>Pimiö tyhjä :(</h1>
+            {% endif %}
+        </div>
+    </body>
+</html>
