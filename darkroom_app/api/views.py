@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 
 from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest, HttpResponseForbidden
 from darkroom_app.models import SensorData
-from darkroom_app.rrd import rrd
+#from darkroom_app.rrd import rrd
 from django.db.models import Min
 
 def light_sensor_entries_to_json(entries):
@@ -55,7 +55,7 @@ def light_sensor_post(request):
     if (value is not None) and valid_token(token):
         entry = SensorData(value=value, sensor=sensor)
         entry.save()
-        rrd.update(sensor, value)
+        #rrd.update(sensor, value)
         return HttpResponse('Success '+str(entry.value))
     else:
         return HttpResponseForbidden()
