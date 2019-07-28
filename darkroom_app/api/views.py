@@ -5,6 +5,7 @@ from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest, Http
 from darkroom_app.models import SensorData
 #from darkroom_app.rrd import rrd
 from django.db.models import Min
+from django.views.decorators.cache import cache_page
 
 def light_sensor_entries_to_json(entries):
     response = {'entries' : []}
@@ -16,12 +17,14 @@ def light_sensor_entries_to_json(entries):
 def valid_token(token):
     return token == 'ebin'
 
+@cache_page(60)
 def light_sensor_get(request):
     entries = SensorData.objects.all().order_by('-datetime')
     response = light_sensor_entries_to_json(entries)
-        
+
     return JsonResponse(response)
 
+@cache_page(30)
 def light_sensor_get_latest(request):
     # Purkkaviritelmä koska SQLite ei tue DISTINCT ON kyselyä
     # pitää kasvattaa lukemaa jos useampi sensori
@@ -39,9 +42,9 @@ def light_sensor_get_latest(request):
             entry_sensors.append(entry.sensor)
         if len(entries) >= amount_of_sensors:
             break
-    
+
     response = light_sensor_entries_to_json(entries)
-        
+
     return JsonResponse(response)
 
 def light_sensor_post(request):
