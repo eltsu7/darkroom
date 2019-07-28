@@ -25,8 +25,7 @@ SECRET_KEY = 'puw77gqpym&1h_i84^n=ilc)!2vqi1&%y#+x@7(07l$62wfb%h'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['www.ttkamerat.fi', 'ttkamerat.fi', 'test.ttkamerat.fi', 'localhost']
-
+ALLOWED_HOSTS = ['api.ttkamerat.fi', 'www.ttkamerat.fi', 'ttkamerat.fi', 'test.ttkamerat.fi', 'localhost']
 
 # Application definition
 
