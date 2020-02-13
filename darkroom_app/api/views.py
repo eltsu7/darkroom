@@ -26,12 +26,10 @@ def light_sensor_get(request):
 
 @cache_page(30)
 def light_sensor_get_latest(request):
-    # Purkkaviritelmä koska SQLite ei tue DISTINCT ON kyselyä
-    # pitää kasvattaa lukemaa jos useampi sensori
-    sensors = SensorData.objects.values('sensor').annotate(datetime=Min('datetime'))
-    amount_of_sensors = len(sensors)
+    # Purkkaviritelmä koska SQLite ei tue DISTINCT ON kysel
 
-    # Haetaan vain vuorokautta uudemmat tiedot
+    # Haetaan vain vuorokautta uudemmat tiedot, lisätään jokaiselta sensorilta
+    #   ensimmäinen (uusin) arvo palautukseen.
     time_threshold = datetime.now() - timedelta(hours=24)
     entries_raw = SensorData.objects.filter(datetime__gt=time_threshold).order_by('-datetime')
     entry_sensors = []
@@ -40,8 +38,6 @@ def light_sensor_get_latest(request):
         if entry.sensor not in entry_sensors:
             entries.append(entry)
             entry_sensors.append(entry.sensor)
-        if len(entries) >= amount_of_sensors:
-            break
 
     response = light_sensor_entries_to_json(entries)
 
